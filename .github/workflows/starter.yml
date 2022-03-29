@@ -33,9 +33,11 @@ jobs:
         run: yarn run build
       - name: run lint
         id: run-lint
+        run: yarn run lint
+      - name: eslint
+        uses: icrawl/action-eslint@v1
         with:
-          eslint: true
-          prettier: true
+          custom-glob: apps # only if a different glob is needed, default: src
       - name: Run tests
         id: run-tests
         run: yarn run test:coverage
