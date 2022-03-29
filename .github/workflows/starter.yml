@@ -25,15 +25,7 @@ jobs:
         with:
           node-version: ${{ matrix.node-version }}
           cache: "yarn"
-      - name: install dependencies
-        id: install-dependencies
-        run: yarn install
-      - name: Build UI
-        id: build-ui
-        run: yarn run build
-      - name: run lint
-        id: run-lint
-        run: yarn run lint
-      - name: Run tests
-        id: run-tests
-        run: yarn run test:ci
+      - run: yarn install
+      - run: yarn run build
+      - run: yarn run lint
+      - run: yarn run test:ci
