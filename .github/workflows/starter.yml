@@ -33,7 +33,6 @@ jobs:
         run: yarn run build
       - name: run lint
         id: run-lint
-        run: yarn run lint
         with:
           eslint: true
           prettier: true
