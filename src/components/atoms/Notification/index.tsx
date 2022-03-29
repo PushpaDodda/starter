@@ -26,7 +26,7 @@ export const NotificationIcon: React.FC<NotificationIconProps> = ({
       variant={variant}
       overlap={overlap}
       classes={{ badge: styles.customBadge }}
-      data-testid ="badge"
+      data-testid="badge1"
     >
       <SvgIcon style={{ height: "20.81px", width: "24px" }}>
         <path
