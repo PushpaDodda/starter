@@ -29,7 +29,7 @@
     "build": "react-scripts build",
     "test": "react-scripts test",
     "watch": "yarn test --coverage --verbose --watchAll",
-    "test:ci": "yarn test --coverage --verbose --watchAll  --ci",
+    "test:coverage": "yarn test  --coverage --watchAll=false",
     "eject": "react-scripts eject",
     "storybook": "start-storybook -p 6006 -s public",
     "build-storybook": "build-storybook -s public",
