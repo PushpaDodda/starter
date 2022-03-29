@@ -1,12 +1,11 @@
 module.exports = {
   preset: "ts-jest",
   testEnvironment: "jsdom",
-  // globals: {
-  //   'ts-jest': {
-  //     tsconfig: './tsconfig.jest.json',
-  //   },
-  // },
-  // setupFilesAfterEnv: ['./src/jest.setup.ts'],
+  globals: {
+    "ts-jest": {
+      tsconfig: "./tsconfig.jest.json",
+    },
+  },
   coverageThreshold: {
     global: {
       branches: 80,
