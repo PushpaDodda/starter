@@ -16,8 +16,6 @@ jobs:
     strategy:
       matrix:
         node-version: [16.x]
-        # os: [ubuntu-latest, windows-latest, macos-latest]
-
         # See supported Node.js release schedule at https://nodejs.org/en/about/releases/
 
     steps:
@@ -27,7 +25,24 @@ jobs:
         with:
           node-version: ${{ matrix.node-version }}
           cache: "yarn"
-      - run: yarn install --ignore-engines
-      - run: yarn run lint
-      - run: yarn run test:ci
-      - run: yarn run build
+      - name: install dependencies
+        id: install-dependencies
+        run: yarn install
+      - name: Build UI
+        id: build-ui
+        run: yarn run build
+      - name: run lint
+        id: run-lint
+        run: yarn run lint
+      - name: Run tests
+        id: run-tests
+        run: yarn run test:ci
+      - name: Cache
+        id: cache-dependencies
+        uses: actions/cache@v2
+        with:
+          path: |
+            ~/cache
+            !~/cache/exclude
+            **/node_modules
+          key: ${{ runner.os }}-${{ hashFiles('**/lockfiles') }}

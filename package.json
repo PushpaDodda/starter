@@ -27,8 +27,9 @@
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
-    "test": "jest --config jest.config.js",
-    "test:ci": "jest --coverage --silent --ci",
+    "test": "react-scripts test",
+    "watch": "yarn test --coverage --verbose --watchAll",
+    "test:ci": "yarn test --coverage --verbose --watchAll  --ci",
     "eject": "react-scripts eject",
     "storybook": "start-storybook -p 6006 -s public",
     "build-storybook": "build-storybook -s public",
@@ -37,6 +38,39 @@
     "lint:fix": "eslint --fix .",
     "prettier": "prettier {*,src/*,src/**/*} --write --ignore-unknown",
     "lint-staged": "lint-staged"
+  },
+  "jest": {
+    "collectCoverageFrom": [
+      "src/**/*.{js,jsx,ts,tsx}",
+      "!<rootDir>/node_modules/",
+      "!src/index.js",
+      "!src/index.tsx",
+      "!src/setupTests.js",
+      "!src/setupTests.ts",
+      "!src/reportWebVitals.ts",
+      "!src/react-app-env.d.ts",
+      "!src/**/*stories.js",
+      "!src/**/*stories.tsx",
+      "!src/**/tests/*.js",
+      "!src/**/tests/*.tsx",
+      "!src/tests/**/*.js",
+      "!src/tests/**/*.ts"
+    ],
+    "coverageThreshold": {
+      "global": {
+        "branches": 80,
+        "functions": 80,
+        "lines": 80,
+        "statements": 80
+      }
+    },
+    "coverageReporters": [
+      "text",
+      "html",
+      "lcov"
+    ],
+    "clearMocks": true,
+    "resetMocks": false
   },
   "eslintConfig": {
     "extends": [
