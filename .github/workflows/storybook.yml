@@ -1,0 +1,53 @@
+name: Deploy storybook to GitHub Pages
+
+on:
+  workflow_call:
+    inputs:
+      node_version:
+        description: "The node version to use"
+        required: false
+        type: string
+        default: "16"
+      package_manager:
+        description: "The package manager to use. Ex: npm or yarn"
+        required: false
+        type: string
+        default: "yarn"
+    secrets:
+      read_github_packages_token:
+        required: true
+
+permissions:
+  # deploy-storybook binary needs this to build & push the artifacts to gh-pages branch
+  contents: write
+
+jobs:
+  deploy-storybook:
+    runs-on: ubuntu-latest
+    env:
+      PACKAGE_MANAGER: ${{ inputs.package_manager }}
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v2
+      - name: Setup node
+        uses: actions/setup-node@v2
+        env:
+          NODE_VERSION: ${{ inputs.node_version }}
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          check-latest: true
+          cache: ${{ env.PACKAGE_MANAGER }}
+      - name: Set GitHub packages registry config
+        env:
+          READ_GITHUB_PACKAGES_TOKEN: ${{ secrets.read_github_packages_token }}
+        run: |
+          echo -e "\n@avitas-bh:registry=https://npm.pkg.github.com" >> .npmrc
+          echo -e "//npm.pkg.github.com/:_authToken=$READ_GITHUB_PACKAGES_TOKEN" >> .npmrc
+      - name: Install dependencies
+        run: ${{ env.PACKAGE_MANAGER }} install
+      - name: Clean up GitHub packages registry config
+        run: rm .npmrc
+      - name: Deploy storybook
+        env:
+          GH_TOKEN: ${{ github.repository_owner }}:${{ secrets.GITHUB_TOKEN }}
+        run: ${{ env.PACKAGE_MANAGER }} run deploy-storybook
